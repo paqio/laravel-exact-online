@@ -52,7 +52,7 @@ class LaravelExactOnline
     public static function loadConfig()
     {
         if(config('laravel-exact-online.exact_multi_user')) {
-            return Auth::user();
+            return Auth::user()->exact;
         } else {
             return (object)json_decode(
                 File::get(
@@ -66,7 +66,7 @@ class LaravelExactOnline
     public static function storeConfig($config)
     {
         if(config('laravel-exact-online.exact_multi_user')) {
-            $config->save();
+            Auth::user()->exact()->save($config);
         } else {
             $file = storage_path('exact.api.json');
             File::put($file, json_encode($config));

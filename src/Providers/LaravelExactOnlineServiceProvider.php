@@ -35,7 +35,8 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
         $this->app->alias(LaravelExactOnline::class, 'laravel-exact-online');
 
         $this->app->singleton('Exact\Connection', function () {
-            $config = LaravelExactOnline::loadConfig();
+
+            $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
 
             $connection = new \Picqer\Financials\Exact\Connection();
             $connection->setRedirectUrl(route('exact.callback'));
@@ -47,24 +48,24 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 $connection->setDivision(config('laravel-exact-online.exact_division'));
             }
 
-            if (isset($config->exact_authorisationCode)) {
-                $connection->setAuthorizationCode($config->exact_authorisationCode);
+            if (isset($config->authorisationCode)) {
+                $connection->setAuthorizationCode($config->authorisationCode);
             }
 
-            if (isset($config->exact_accessToken)) {
-                $connection->setAccessToken(unserialize($config->exact_accessToken));
+            if (isset($config->accessToken)) {
+                $connection->setAccessToken(unserialize($config->accessToken));
             }
 
-            if (isset($config->exact_refreshToken)) {
-                $connection->setRefreshToken($config->exact_refreshToken);
+            if (isset($config->refreshToken)) {
+                $connection->setRefreshToken($config->refreshToken);
             }
 
-            if (isset($config->exact_tokenExpires)) {
-                $connection->setTokenExpires($config->exact_tokenExpires);
+            if (isset($config->tokenExpires)) {
+                $connection->setTokenExpires($config->tokenExpires);
             }
 
             try {
-                if (isset($config->exact_authorisationCode)) {
+                if (isset($config->authorisationCode)) {
                     $connection->connect();
                 }
             } catch (\GuzzleHttp\Exception\RequestException $e) {
@@ -75,9 +76,9 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
-            $config->exact_accessToken = serialize($connection->getAccessToken());
-            $config->exact_refreshToken = $connection->getRefreshToken();
-            $config->exact_tokenExpires = $connection->getTokenExpires();
+            $config->accessToken = serialize($connection->getAccessToken());
+            $config->refreshToken = $connection->getRefreshToken();
+            $config->tokenExpires = $connection->getTokenExpires();
 
             LaravelExactOnline::storeConfig($config);
 
