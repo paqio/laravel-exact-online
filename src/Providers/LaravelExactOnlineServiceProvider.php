@@ -4,6 +4,9 @@ namespace PendoNL\LaravelExactOnline\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 class LaravelExactOnlineServiceProvider extends ServiceProvider
 {
@@ -39,7 +42,8 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
 
             $connection = new \Picqer\Financials\Exact\Connection();
-            $connection->setRedirectUrl(route('exact.callback'));
+//            $rand = Crypt::encryptString(Auth::user()->id);
+            $connection->setRedirectUrl(route('exact.callback',['user' => Auth::user()->id]));
             $connection->setExactClientId(config('laravel-exact-online.exact_client_id'));
             $connection->setExactClientSecret(config('laravel-exact-online.exact_client_secret'));
             $connection->setBaseUrl('https://start.exactonline.' . config('laravel-exact-online.exact_country_code'));
@@ -76,9 +80,13 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
+
             $config->accessToken = serialize($connection->getAccessToken());
             $config->refreshToken = $connection->getRefreshToken();
             $config->tokenExpires = $connection->getTokenExpires();
+
+
+
 
             LaravelExactOnline::storeConfig($config);
 

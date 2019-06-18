@@ -2,8 +2,11 @@
 
 namespace PendoNL\LaravelExactOnline\Http\Controllers;
 
+use App\User;
 use Illuminate\Routing\Controller;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class LaravelExactOnlineController extends Controller
 {
@@ -20,9 +23,8 @@ class LaravelExactOnlineController extends Controller
      * Sends an oAuth request to the Exact App to get tokens
      */
     public function appAuthorize() {
-
         $connection = app()->make('Exact\Connection');
-        $connection->redirectForAuthorization();
+        return ["url" => $connection->getAuthUrl()];
     }
 
     /**
@@ -31,12 +33,17 @@ class LaravelExactOnlineController extends Controller
      */
     public function appCallback() {
 
+
+//        $id = Crypt::decryptString(request()->get('user'));
+        Auth::loginUsingId(request()->get('user'));
+
         $config = LaravelExactOnline::loadConfig();
+
         $config->authorisationCode = request()->get('code');
         LaravelExactOnline::storeConfig($config);
 
         $connection = app()->make('Exact\Connection');
 
-        return view('laravelexactonline::connected', ['connection' => $connection]);
+        return redirect("easykas://return");
     }
 }
