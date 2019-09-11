@@ -35,6 +35,7 @@ class LaravelExactOnlineController extends Controller
 
 
 //        $id = Crypt::decryptString(request()->get('user'));
+        Auth::shouldUse('web');
         Auth::loginUsingId(request()->get('user'));
 
         $config = LaravelExactOnline::loadConfig();
