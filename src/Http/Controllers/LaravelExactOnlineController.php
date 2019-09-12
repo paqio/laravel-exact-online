@@ -4,6 +4,8 @@ namespace PendoNL\LaravelExactOnline\Http\Controllers;
 
 use App\User;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\URL;
 use PendoNL\LaravelExactOnline\LaravelExactOnline;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -45,6 +47,7 @@ class LaravelExactOnlineController extends Controller
 
         $connection = app()->make('Exact\Connection');
 
-        return redirect("easykas://return");
+        return redirect()->route('exact.form');
+//        return redirect("easykas://return");
     }
 }
