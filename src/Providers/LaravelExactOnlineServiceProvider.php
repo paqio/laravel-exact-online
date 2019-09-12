@@ -7,7 +7,7 @@ use PendoNL\LaravelExactOnline\LaravelExactOnline;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
 class LaravelExactOnlineServiceProvider extends ServiceProvider
 {
     /**
@@ -81,7 +81,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             $config->refreshToken = $connection->getRefreshToken();
             $config->tokenExpires = $connection->getTokenExpires();
 
-
+Log::debug("fdfdfdf");
 
 
             LaravelExactOnline::storeConfig($config);
