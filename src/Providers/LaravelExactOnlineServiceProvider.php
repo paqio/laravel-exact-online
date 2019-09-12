@@ -64,11 +64,12 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 $connection->setRefreshToken($config->refreshToken);
             }
 
-            if (isset($config->tokenExpires)) {
-                $connection->setTokenExpires($config->tokenExpires);
-            }
+//            if (isset($config->tokenExpires)) {
+//                $connection->setTokenExpires($config->tokenExpires);
+//            }
 
             $connection->setTokenUpdateCallback('tokenUpdateCallback');
+
             try {
                 if (isset($config->authorisationCode)) {
                     $connection->connect();
@@ -81,10 +82,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
-
-
-
-                     LaravelExactOnline::storeConfig($config);
+             LaravelExactOnline::storeConfig($config);
 
 
             return $connection;
@@ -93,12 +91,11 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
 
     function tokenUpdateCallback(\Picqer\Financials\Exact\Connection $connection)
     {
-        
-          $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
+        $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
 
         $config->accessToken = serialize($connection->getAccessToken());
             $config->refreshToken = $connection->getRefreshToken();
-            $config->tokenExpires = $connection->getTokenExpires();
+//            $config->tokenExpires = $connection->getTokenExpires();
         // Save the new tokens for next connections
             LaravelExactOnline::storeConfig($config);
 
