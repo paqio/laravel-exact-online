@@ -93,6 +93,9 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
 
     function tokenUpdateCallback(\Picqer\Financials\Exact\Connection $connection)
     {
+        
+          $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
+
         $config->accessToken = serialize($connection->getAccessToken());
             $config->refreshToken = $connection->getRefreshToken();
             $config->tokenExpires = $connection->getTokenExpires();
