@@ -73,15 +73,19 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                     $connection->connect();
                 }
             } catch (\Exception $e) {
+
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
+            usleep(rand(100000,500000));
 
             $config->accessToken = serialize($connection->getAccessToken());
             $config->refreshToken = $connection->getRefreshToken();
             $config->tokenExpires = $connection->getTokenExpires();
 
-Log::debug("fdfdfdf");
+            Log::debug(   $config->accessToken);
+            Log::debug(   $config->refreshToken);
+            Log::debug(   $connection->getRefreshToken());
 
 
             LaravelExactOnline::storeConfig($config);
