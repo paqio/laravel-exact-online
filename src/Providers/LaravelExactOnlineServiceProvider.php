@@ -73,6 +73,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                     $connection->connect();
                 }
             } catch (\GuzzleHttp\Exception\RequestException $e) {
+               Log::debug("here");
                 $connection->setAccessToken(null);
                 $connection->setRefreshToken(null);
                 $connection->connect();
