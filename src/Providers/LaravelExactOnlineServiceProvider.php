@@ -39,7 +39,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
 
         $this->app->singleton('Exact\Connection', function () {
 
-            $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
+            $config = LaravelExactOnline::loadConfig();
 
             $connection = new \Picqer\Financials\Exact\Connection();
 //            $rand = Crypt::encryptString(Auth::user()->id);
@@ -66,7 +66,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             if (isset($config->tokenExpires)) {
                 $connection->setTokenExpires($config->tokenExpires);
             }
-            $connection->setTokenUpdateCallback('PendoNL\LaravelExactOnline\Providers\LaravelExactOnlineServiceProvider::tokenUpdateCallback');
+            $connection->setTokenUpdateCallback('\PendoNL\LaravelExactOnline\Providers\LaravelExactOnlineServiceProvider::tokenUpdateCallback');
             try {
                 if (isset($config->exact_authorisationCode)) {
                     $connection->connect();
@@ -95,7 +95,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
     {
         Log::debug("-------------");
 
-        $config = LaravelExactOnline::loadConfig() == null ? new \App\Exact() : LaravelExactOnline::loadConfig();
+        $config = LaravelExactOnline::loadConfig();
 
         $config->exact_accessToken = serialize($connection->getAccessToken());
         $config->exact_refreshToken = $connection->getRefreshToken();
