@@ -66,7 +66,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             if (isset($config->tokenExpires)) {
                 $connection->setTokenExpires($config->tokenExpires);
             }
-            $connection->setTokenUpdateCallback('PendoNL\LaravelExactOnline\Providers\LaravelExactOnlineServiceProvider::tokenUpdateCallback');
+            $connection->setTokenUpdateCallback('\App\Exact::tokenUpdateCallback');
             try {
                 if (isset($config->exact_authorisationCode)) {
                     $connection->connect();
@@ -83,24 +83,5 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             return $connection;
         });
     }
-    /**
-     * Token Update Callback.
-     *
-     * @param \Picqer\Financials\Exact\Connection $connection
-     *
-     * @return bool
-     */
-    public static function tokenUpdateCallback(\Picqer\Financials\Exact\Connection $connection)
-    {
-        Log::debug("-------------");
 
-        $config = LaravelExactOnline::loadConfig();
-
-        $config->exact_accessToken = serialize($connection->getAccessToken());
-        $config->exact_refreshToken = $connection->getRefreshToken();
-        $config->exact_tokenExpires = $connection->getTokenExpires();
-
-        LaravelExactOnline::storeConfig($config);
-
-    }
 }
