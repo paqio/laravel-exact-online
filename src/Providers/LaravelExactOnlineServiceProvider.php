@@ -72,13 +72,12 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 if (isset($config->exact_authorisationCode)) {
                     $connection->connect();
                 }
-            } catch (\GuzzleHttp\Exception\RequestException $e) {
+            } catch (\Exception $e) {
                Log::debug("here");
                 $connection->setAccessToken(null);
                 $connection->setRefreshToken(null);
                 $connection->connect();
-            } catch (\Exception $e) {
-                throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
+
             }
 
 
