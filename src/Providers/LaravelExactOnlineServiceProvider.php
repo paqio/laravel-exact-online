@@ -73,7 +73,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             } catch (\Exception $e) {
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
-            
+
             return $connection;
         });
     }
