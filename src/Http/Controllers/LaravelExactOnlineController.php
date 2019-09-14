@@ -46,7 +46,7 @@ class LaravelExactOnlineController extends Controller
         LaravelExactOnline::storeConfig($config);
 
         $connection = app()->make('Exact\Connection');
-
+        session(['user' => request()->get('user')]);
         return redirect()->route('exact.form');
 //        return redirect("easykas://return");
     }
