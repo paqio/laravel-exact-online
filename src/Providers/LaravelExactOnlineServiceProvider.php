@@ -66,7 +66,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             if (isset($config->tokenExpires)) {
                 $connection->setTokenExpires($config->tokenExpires);
             }
-            $oConnection->setTokenUpdateCallback('PendoNL\LaravelExactOnline\Providers\LaravelExactOnlineServiceProvider::tokenUpdateCallback');
+            $connection->setTokenUpdateCallback('PendoNL\LaravelExactOnline\Providers\LaravelExactOnlineServiceProvider::tokenUpdateCallback');
             try {
                 if (isset($config->exact_authorisationCode)) {
                     $connection->connect();
@@ -83,6 +83,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             return $connection;
         });
     }
+    /**
     /**
      * Token Update Callback.
      *
