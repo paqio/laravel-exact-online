@@ -84,7 +84,7 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
         });
     }
     /**
-    /**
+    
      * Token Update Callback.
      *
      * @param \Picqer\Financials\Exact\Connection $connection
