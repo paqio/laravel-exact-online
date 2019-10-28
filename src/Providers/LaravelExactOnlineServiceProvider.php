@@ -48,8 +48,8 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             $connection->setExactClientSecret(config('laravel-exact-online.exact_client_secret'));
             $connection->setBaseUrl('https://start.exactonline.' . config('laravel-exact-online.exact_country_code'));
 
-            if (config('laravel-exact-online.exact_division') !== '') {
-                $connection->setDivision(config('laravel-exact-online.exact_division'));
+            if (isset($config->company_id)) {
+                $connection->setDivision($config->company_id);
             }
 
             if (isset($config->authorisationCode)) {
