@@ -2,7 +2,7 @@
     "name": "pendonl/laravel-exact-online",
     "description": "Laravel Facade wrapper for Exact Online PHP API",
     "require": {
-        "picqer/exact-php-client": "^3.21"
+        "picqer/exact-php-client": "dev-master"
     },
     "require-dev": {
       "phpunit/phpunit": "~5.0"
