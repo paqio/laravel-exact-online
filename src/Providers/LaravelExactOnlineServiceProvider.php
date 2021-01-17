@@ -84,9 +84,9 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
 
-            $config->exact_accessToken = serialize($connection->getAccessToken());
-            $config->exact_refreshToken = $connection->getRefreshToken();
-            $config->exact_tokenExpires = $connection->getTokenExpires();
+            $config->accessToken = serialize($connection->getAccessToken());
+            $config->refreshToken = $connection->getRefreshToken();
+            $config->tokenExpires = $connection->getTokenExpires();
 
 
             return $connection;
