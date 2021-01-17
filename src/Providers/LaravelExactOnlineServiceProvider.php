@@ -66,7 +66,10 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             if (isset($config->tokenExpires)) {
                 $connection->setTokenExpires($config->tokenExpires);
             }
+            $connection->setAcquireAccessTokenLockCallback('\App\Exact::aquireAccessTokenLock');
+            $connection->setAcquireAccessTokenUnlockCallback('\App\Exact::releaseAccesTokenLock');
             $connection->setTokenUpdateCallback('\App\Exact::tokenUpdateCallback');
+            $connection->setRefreshAccessTokenCallback('\App\Exact::refreshAccesToken');
 
             try {
                 $connection->connect();
