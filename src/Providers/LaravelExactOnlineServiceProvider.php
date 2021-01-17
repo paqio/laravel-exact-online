@@ -70,12 +70,24 @@ class LaravelExactOnlineServiceProvider extends ServiceProvider
             $connection->setAcquireAccessTokenUnlockCallback('\App\Exact::releaseAccesTokenLock');
             $connection->setTokenUpdateCallback('\App\Exact::tokenUpdateCallback');
             $connection->setRefreshAccessTokenCallback('\App\Exact::refreshAccesToken');
+            
 
             try {
+                if (isset($config->authorisationCode)) {
+                    $connection->connect();
+                }
+            } catch (\GuzzleHttp\Exception\RequestException $e) {
+                $connection->setAccessToken(null);
+                $connection->setRefreshToken(null);
                 $connection->connect();
             } catch (\Exception $e) {
                 throw new \Exception('Could not connect to Exact: ' . $e->getMessage());
             }
+
+            $config->exact_accessToken = serialize($connection->getAccessToken());
+            $config->exact_refreshToken = $connection->getRefreshToken();
+            $config->exact_tokenExpires = $connection->getTokenExpires();
+
 
             return $connection;
         });
